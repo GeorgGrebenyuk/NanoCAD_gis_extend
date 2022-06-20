@@ -57,7 +57,6 @@ namespace NanoCAD_GIS
         private static extern point crs2crs_tranform_internal(char[] source_cs, char[] target_cs, 
             double source_x, double source_y, double source_z);
 
-
         public point crs2crs_tranform(char[] source_cs, char[] target_cs, 
             double source_x, double source_y, double source_z)
         {

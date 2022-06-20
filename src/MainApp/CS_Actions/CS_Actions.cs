@@ -67,7 +67,7 @@ namespace NanoCAD_GIS.CS_Actions
             }
             //Получаем коллекцию точек
             List<string> recal_result = new List<string>();
-            
+            List<Point3d> currents_pos = new List<Point3d>();
             using (DocumentLock acLckDoc = nc_doc.LockDocument())
             {
                 using (Transaction acTrans = nc_db.TransactionManager.StartTransaction())
@@ -85,14 +85,21 @@ namespace NanoCAD_GIS.CS_Actions
                             Entity ent = acTrans.GetObject(one_id, OpenMode.ForWrite) as Entity;
                             
                             DBPoint model_point = acTrans.GetObject(one_id, OpenMode.ForWrite) as DBPoint;
-                            ILibraryImport recalc_data = LibraryImport.Select();
-                            point recalced_point = recalc_data.crs2crs_tranform(CS_code.ToCharArray(), this.target_cs.ToCharArray(),
-                                model_point.Position.X, model_point.Position.Y, model_point.Position.Z);
+                            
+                            ;
+                            currents_pos.Add(model_point.Position);
 
-                            recal_result.Add($"{recalced_point.x}    {recalced_point.y}");
+                            
                         }
                     }
                 }
+            }
+            //ILibraryImport recalc_data = LibraryImport.Select();
+            foreach (Point3d p in currents_pos)
+            {
+                point recalced_point = Tools.for_recalc_data.crs2crs_tranform(CS_code.ToCharArray(), this.target_cs.ToCharArray(),
+                                p.X, p.Y, p.Z);
+                recal_result.Add($"{recalced_point.x}    {recalced_point.y}");
             }
             File.WriteAllText(save_dir + $"\\result_recalc_{Guid.NewGuid()}.txt", String.Join("\r\n", recal_result));
 

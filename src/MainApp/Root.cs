@@ -27,10 +27,12 @@ namespace NanoCAD_GIS
         /// </summary>
         public void GettingProjectInfo()
         {
+            Tools.for_recalc_data = LibraryImport.Select();
             nc_doc = Platform.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             nc_db = nc_doc.Database;
             
         }
+        
         [CommandMethod("NCGIS_ASSIGN_CS")]
         public void Identify_cs ()
         {
@@ -41,6 +43,7 @@ namespace NanoCAD_GIS
         [CommandMethod("NCGIS_EXPORT_POINTS_CSV")]
         public void export_points_coords()
         {
+            GettingProjectInfo();
             string user_cs_target = null;
             Tools.GettingUserInput("Укажите целевую СК", ref user_cs_target);
             new CS_Actions.CS_Actions("test", user_cs_target);

@@ -27,6 +27,7 @@ namespace NanoCAD_GIS
     }
     public static class Tools
     {
+        public static ILibraryImport for_recalc_data;
         public static void GettingUserInput (string FirstMessage, ref string OutPutInfo)
         {
             PromptStringOptions opts = new PromptStringOptions(FirstMessage);
@@ -43,5 +44,6 @@ namespace NanoCAD_GIS
             }
 
         }
+
     }
 }
